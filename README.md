@@ -1,37 +1,74 @@
-## Welcome to GitHub Pages
+## Daily / Weekly Report Generation
 
-You can use the [editor on GitHub](https://github.com/mirlz/mm-report/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+### Overview
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+A local web page that helps to generate a new Excel file with a excel sheet for each respective team. Inputs are sent through Slack, which I use to copy and paste into the input fields to compile the excel sheet. 
 
-### Markdown
+This is a tool (somewhat crudely done) I personally put together within a day and half, so it's done quite simply. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Example of an entry
 
-```markdown
-Syntax highlighted code block
+Today 
+- Solved bug #123
+- Added feature #234 to master branch
 
-# Header 1
-## Header 2
-### Header 3
+Tomorrow
+- Bug #345
+- Bug #456
+- Bug #567
 
-- Bulleted
-- List
+### Libraries used 
 
-1. Numbered
-2. List
+- Bootstrap
+- Jquery UI
+- Code snippets to convert html to excel
 
-**Bold** and _Italic_ and `Code` text
+### Interface
 
-[Link](url) and ![Image](src)
-```
+The above appears as a drop down for choosing the owner of the entry. Value is the formal name that will be saved in the excel instead. 
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+    <div class="form-group">
+		<label for="names">Who is the individual?</label>
+		<select class="form-control"  id="names">
+			<option value="Person 1">1</option>
+			<option value="Person 2">2</option>
+			<option value="Person 3">3</option>
+			<option value="Person 4">4</option>
+			<option value="Person 5">5</option>
+		</select>
+	</div>
 
-### Jekyll Themes
+Interactive section for user to submit entry per user. Empty row is added for space between each user. Text area is the main input for user to input entry of each individual then adding as row to table.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/mirlz/mm-report/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+    <form id="submitForm">
+		<div class="form-group">
+			<label for="tasks">Tasks: </label>
+			<textarea class="form-control" id="tasks" rows="6"></textarea>
+		</div>
+		<button type="button" id="formSubmit class="btn btn-info">Create Table</button>
+		<button type="button" id="addEmptyRow" class="btn btn-warning">Add Empty Row</button>
+		<button type="button" id="clear" class="btn btn-danger">Clear Field</button>
+	</form>
 
-### Support or Contact
+### Time and date 
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+This is used for adding the dates in the entry sheet itself for showing the date of today and tomorrow. Also date is used for saving the file in this format file_20181205.xls.
+
+    <?php date_default_timezone_set('Asia/Singapore'); ?>
+
+    function  task(str) {
+		var  tempStr;
+		var  date = '<?=  date("Y-m-d"); ?>';
+		
+		if(str.toLowerCase().includes('tomorrow')) {
+			date = '<?=  date("Y-m-d", time()+86400); ?>';
+		}
+		
+		tempStr = '<tr>'+
+		'<td contenteditable="true">'+date+'</td>'+
+		'<td contenteditable="true" class="xl75">IT e-commerce</td>'+
+		'<td contenteditable="true" class="xl76"></td>'+
+		'<td contenteditable="true" class="xl77"><b>'+str+'\'s Tasks'+'</b>';
+
+		 return  tempStr;
+	}
