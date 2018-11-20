@@ -18,7 +18,7 @@
     #tableResult td { 
         padding: 5px;
     }
-    #clearShit, #clear {
+    #clearEntries, #clear {
         float:right;
     }
     #addEmptyRow {
@@ -82,7 +82,7 @@
                 <option value="Daniel">Daniel</option>
             </select>
         </div>
-        <form id="submitForm"></form>
+        <form id="submitForm">
             <div class="form-group">
                 <label for="tasks">Tasks: </label>
                 <textarea class="form-control" id="tasks" rows="6"></textarea>
@@ -124,14 +124,14 @@
             <tbody>
             </tbody>
         </table>
-        <button type="button" id="exportShit" class="btn btn-info">Export to Excel</button>
+        <button type="button" id="exportStuff" class="btn btn-info">Export to Excel</button>
         <div class="copyFileName">
             <input type="text" value='Weekly Report_template' id="fileName">
             <div class="valid-tooltip">
                 Copied liao
             </div>
         </div>
-        <button type="button" id="clearShit" class="btn btn-danger">Clear Table</button>
+        <button type="button" id="clearEntries" class="btn btn-danger">Clear Table</button>
         <a id="dlink"  style="display:none;"></a>
     </div>
 </body>
@@ -276,13 +276,13 @@
         $( "#fileName" ).blur(function() {
             $('.copyFileName > .valid-tooltip').hide();
         });
-        $('#exportShit').off().on('click', function(e){
+        $('#exportStuff').off().on('click', function(e){
             $('.remove').remove();
             var str = document.getElementById('tableResult').innerHTML;
             document.getElementById('tableResult').innerHTML = str.replace(/<br\s*[\/]?>/gi, '<br style="mso-data-placement:same-cell;">');
             tableToExcel('tableResult', '<?= date("Y-m-d"); ?>', 'Weekly Report_template.xls');
         });
-        $('#clearShit').off().on('click', function(e){
+        $('#clearEntries').off().on('click', function(e){
             $("#tableResult > tbody").html("");
         });
         $('#clear').off().on('click', function(e){
